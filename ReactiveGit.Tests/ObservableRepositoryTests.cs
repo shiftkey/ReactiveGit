@@ -12,7 +12,7 @@ namespace ReactiveGit.Tests
     public class ObservableRepositoryTests
     {
         [Fact]
-        public async Task CanPullSomeRepository()
+        public async Task GetProgressFromASyncOperation()
         {
             Credentials credentials = new UsernamePasswordCredentials
             {
