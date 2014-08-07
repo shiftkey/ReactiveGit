@@ -40,7 +40,6 @@ namespace ReactiveGit
                 {
                     OnCheckoutProgress = (s, completedSteps, totalSteps) =>
                     {
-                        // surface the progress from libgit2
                         var progress = 50 + (50 * completedSteps) / totalSteps;
                         observer.OnNext(Tuple.Create(s, progress));
                     }
@@ -66,9 +65,14 @@ namespace ReactiveGit
                 Credentials = _credentials,
                 OnPushTransferProgress = (current, total, bytes) =>
                 {
-                    // surface the progress from libgit2
-                    var progress = 50 + (50 * current) / total;
+                    var progress = 0;
+                    if (total != 0)
+                    {
+                        progress = 50 + (50 * current) / total;
+                    }
+
                     observer.OnNext(Tuple.Create("", progress));
+
                     return true;
                 }
             };
