@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using LibGit2Sharp;
 using Xunit;
@@ -22,29 +24,23 @@ namespace ReactiveGit.Tests
                 @"C:\Users\brendanforster\Documents\GìtHūb\testing-pushspecs",
                 credentials);
 
-            var progress = 0;
+            Func<int, int> translate = x => x / 3;
 
-            var pullObserver = Observer.Create<Tuple<string, int>>(
-                next =>
-                {
-                    progress = (next.Item2 * 2) / 3;
-                });
+            var pullObserver = new ReplaySubject<Tuple<string, int>>();
+            var pushObserver = new ReplaySubject<Tuple<string, int>>();
 
             var pullResult = await repository.Pull(pullObserver);
 
-            Assert.Equal(66, progress);
-
             Assert.NotEqual(MergeStatus.Conflicts, pullResult.Status);
-
-            var pushObserver = Observer.Create<Tuple<string, int>>(
-                next =>
-                {
-                    progress = 67 + (next.Item2 / 3);
-                });
 
             await repository.Push(pushObserver);
 
-            Assert.Equal(100, progress);
+            var list = await pullObserver.Select(x => translate(x.Item2) * 2)
+                                 .Concat(pushObserver.Select(x => 67 + translate(x.Item2)))
+                                 .ToList();
+
+            Assert.NotEmpty(list);
+            Assert.Equal(100, list.Last());
         }
     }
 }
