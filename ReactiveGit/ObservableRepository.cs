@@ -46,14 +46,15 @@ namespace ReactiveGit
                 }
             };
 
-            // this is a blocking call, hence all the ceremony before
-            return Observable.Start(() => _repository.Network.Pull(signature, options))
-                .Finally(() =>
-                {
-                    // ensure the observable signals even when the branch is up to date
-                    observer.OnNext(Tuple.Create("pull completed", 100));
-                    observer.OnCompleted();
-                });
+            return Observable.Start(() =>
+            {
+                var result = _repository.Network.Pull(signature, options);
+
+                observer.OnNext(Tuple.Create("pull completed", 100));
+                observer.OnCompleted();
+
+                return result;
+            });
         }
 
         public IObservable<Unit> Push(IObserver<Tuple<string, int>> observer)
@@ -77,14 +78,13 @@ namespace ReactiveGit
                 }
             };
 
-            // this is a blocking call, hence all the ceremony before
-            return Observable.Start(() => _repository.Network.Push(branch, options))
-                .Finally(() =>
-                {
-                    // ensure the observable signals even when the branch is up to date
-                    observer.OnNext(Tuple.Create("push completed", 100));
-                    observer.OnCompleted();
-                });
+            return Observable.Start(() =>
+            {
+                _repository.Network.Push(branch, options);
+
+                observer.OnNext(Tuple.Create("push completed", 100));
+                observer.OnCompleted();
+            });
         }
 
         public void Dispose()

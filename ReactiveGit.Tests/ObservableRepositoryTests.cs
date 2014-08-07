@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reactive;
-using System.Reactive.Concurrency;
 using System.Reactive.Linq;
 using System.Threading.Tasks;
 using LibGit2Sharp;
@@ -33,21 +32,19 @@ namespace ReactiveGit.Tests
 
             var pullResult = await repository.Pull(pullObserver);
 
-            // TODO: verify percentages are correct at this point
-            // Assert.Equal(66, progress);
+            Assert.Equal(66, progress);
 
             Assert.NotEqual(MergeStatus.Conflicts, pullResult.Status);
 
             var pushObserver = Observer.Create<Tuple<string, int>>(
                 next =>
                 {
-                    progress = 66 + (next.Item2 * 2) / 3;
+                    progress = 67 + (next.Item2 / 3);
                 });
 
             await repository.Push(pushObserver);
 
-            // TODO: verify percentages are correct at this point
-            // Assert.Equal(100, progress);
+            Assert.Equal(100, progress);
         }
     }
 }
