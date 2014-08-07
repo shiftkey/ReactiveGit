@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveGit", "ReactiveGit\ReactiveGit.csproj", "{3BB24A21-6065-4FCD-8BB8-83E875AF2C99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveGit.Tests", "ReactiveGit.Tests\ReactiveGit.Tests.csproj", "{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3BB24A21-6065-4FCD-8BB8-83E875AF2C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BB24A21-6065-4FCD-8BB8-83E875AF2C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BB24A21-6065-4FCD-8BB8-83E875AF2C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BB24A21-6065-4FCD-8BB8-83E875AF2C99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
