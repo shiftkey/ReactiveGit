@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Linq;
 using LibGit2Sharp;
 
@@ -52,6 +53,32 @@ namespace ReactiveGit
                 {
                     // ensure the observable signals even when the branch is up to date
                     observer.OnNext(Tuple.Create("pull completed", 100));
+                    observer.OnCompleted();
+                });
+        }
+
+        public IObservable<Unit> Push(IObserver<Tuple<string, int>> observer)
+        {
+            var branch = _repository.Head;
+
+            var options = new PushOptions
+            {
+                Credentials = _credentials,
+                OnPushTransferProgress = (current, total, bytes) =>
+                {
+                    // surface the progress from libgit2
+                    var progress = 50 + (50 * current) / total;
+                    observer.OnNext(Tuple.Create("", progress));
+                    return true;
+                }
+            };
+
+            // this is a blocking call, hence all the ceremony before
+            return Observable.Start(() => _repository.Network.Push(branch, options))
+                .Finally(() =>
+                {
+                    // ensure the observable signals even when the branch is up to date
+                    observer.OnNext(Tuple.Create("push completed", 100));
                     observer.OnCompleted();
                 });
         }
