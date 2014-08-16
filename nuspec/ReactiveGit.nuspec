@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>ReactiveGit</id>
+    <version>0.0.1</version>
+    <authors>Brendan Forster</authors>
+    <owners>Brendan Forster</owners>
+    <licenseUrl>https://github.com/shiftkey/ReactiveGit/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/shiftkey/ReactiveGit</projectUrl>
+    <!--<iconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</iconUrl>-->
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A wrapper for libgit2sharp to make git operations asynchronous</description>
+    <releaseNotes>First preview</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>Git libgit2</tags>
+    <dependencies>
+      <dependency id="libgit2sharp" version="0.18.1.0" />
+      <dependency id="Rx-Main" version="2.2.5" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="..\ReactiveGit\bin\Release\*.*" target="lib\net45\" />
+  </files>
+</package>
