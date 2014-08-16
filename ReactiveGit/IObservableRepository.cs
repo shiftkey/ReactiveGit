@@ -18,6 +18,5 @@ namespace ReactiveGit
         IObservable<Unit> Checkout(
             string commitOrBranchSpec,
             IObserver<Tuple<string, int>> observer);
-
     }
 }

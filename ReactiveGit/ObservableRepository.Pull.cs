@@ -29,11 +29,7 @@ namespace ReactiveGit
                 },
                 MergeOptions = new MergeOptions
                 {
-                    OnCheckoutProgress = (path, completedSteps, totalSteps) =>
-                    {
-                        var progress = 50 + (50 * completedSteps) / totalSteps;
-                        observer.OnNext(Tuple.Create(path, progress));
-                    }
+                    OnCheckoutProgress = ProgressFactory.CreateHandler(observer, start:50, count:50)
                 }
             };
 

@@ -59,6 +59,7 @@
     <Compile Include="ObservableRepository.cs" />
     <Compile Include="ObservableRepository.Pull.cs" />
     <Compile Include="ObservableRepository.Push.cs" />
+    <Compile Include="ProgressFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

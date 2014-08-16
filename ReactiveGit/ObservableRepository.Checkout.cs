@@ -16,11 +16,7 @@ namespace ReactiveGit
 
             var options = new CheckoutOptions
             {
-                OnCheckoutProgress = (path, completedSteps, totalSteps) =>
-                {
-                    var progress = (100 * completedSteps) / totalSteps;
-                    observer.OnNext(Tuple.Create(path, progress));
-                }
+                OnCheckoutProgress = ProgressFactory.CreateHandler(observer)
             };
 
             return Observable.Start(() =>
@@ -41,11 +37,7 @@ namespace ReactiveGit
 
             var options = new CheckoutOptions
             {
-                OnCheckoutProgress = (path, completedSteps, totalSteps) =>
-                {
-                    var progress = (100 * completedSteps) / totalSteps;
-                    observer.OnNext(Tuple.Create(path, progress));
-                }
+                OnCheckoutProgress = ProgressFactory.CreateHandler(observer)
             };
 
             return Observable.Start(() =>
@@ -66,11 +58,7 @@ namespace ReactiveGit
 
             var options = new CheckoutOptions
             {
-                OnCheckoutProgress = (path, completedSteps, totalSteps) =>
-                {
-                    var progress = (100 * completedSteps) / totalSteps;
-                    observer.OnNext(Tuple.Create(path, progress));
-                }
+                OnCheckoutProgress = ProgressFactory.CreateHandler(observer)
             };
 
             return Observable.Start(() =>
