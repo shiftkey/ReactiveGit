@@ -1,7 +1,7 @@
 ReactiveGit
 ===========
 
-This is an experiment in combining Rx and `LibGit2Sharp` to make create an API to make git operations more friendly for asynchronous situations.
+This is an experiment in combining Rx and `LibGit2Sharp` to create an API to make git operations friendly for asynchronous situations.
 
 `libgit2` operations are, by their nature, synchronous. This is reflected in the wrapper APIs such as `LibGit2Sharp`. This is great for simple interactions with repositories, but working with complex tasks against large repositories requires embracing asynchrony and pushing operations onto background threads.
 
