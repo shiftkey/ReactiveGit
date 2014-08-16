@@ -19,6 +19,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\ReactiveGit\bin\Release\*.*" target="lib\net45\" />
+    <file src="..\ReactiveGit\bin\Release\ReactiveGit.*" target="lib\net45\" />
   </files>
 </package>
