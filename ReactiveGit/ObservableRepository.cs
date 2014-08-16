@@ -1,9 +1,9 @@
-﻿using System;
-using LibGit2Sharp;
+﻿using LibGit2Sharp;
 
 namespace ReactiveGit
 {
-    public partial class ObservableRepository : IDisposable
+    public partial class ObservableRepository
+        : IObservableRepository
     {
         readonly Repository _repository;
         readonly Credentials _credentials;
