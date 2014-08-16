@@ -11,6 +11,7 @@ if (Test-Path  $env:ProgramFiles\MSBuild\12.0\bin\) {
 Push-Location -Path $root
 
 # build the thing
+.\tools\nuget.exe restore .\ReactiveGit.sln
 . $msbuild .\ReactiveGit.sln /target:Rebuild /property:Configuration=Release
 
 # TODO: run the tests
