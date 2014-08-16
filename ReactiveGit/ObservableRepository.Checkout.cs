@@ -22,10 +22,7 @@ namespace ReactiveGit
             return Observable.Start(() =>
             {
                 _repository.Checkout(branch, options, signature);
-
-                observer.OnNext(Tuple.Create("checkout completed", 100));
-                observer.OnCompleted();
-
+                SignalCompleted(observer);
             }, Scheduler.Default);
         }
 
@@ -43,10 +40,7 @@ namespace ReactiveGit
             return Observable.Start(() =>
             {
                 _repository.Checkout(commit, options, signature);
-
-                observer.OnNext(Tuple.Create("checkout completed", 100));
-                observer.OnCompleted();
-
+                SignalCompleted(observer);
             }, Scheduler.Default);
         }
 
@@ -64,11 +58,14 @@ namespace ReactiveGit
             return Observable.Start(() =>
             {
                 _repository.Checkout(commitOrBranchSpec, options, signature);
-
-                observer.OnNext(Tuple.Create("checkout completed", 100));
-                observer.OnCompleted();
-
+                SignalCompleted(observer);
             }, Scheduler.Default);
+        }
+
+        static void SignalCompleted(IObserver<Tuple<string, int>> observer)
+        {
+            observer.OnNext(Tuple.Create("checkout completed", 100));
+            observer.OnCompleted();
         }
     }
 }
