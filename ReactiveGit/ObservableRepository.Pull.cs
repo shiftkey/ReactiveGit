@@ -29,10 +29,10 @@ namespace ReactiveGit
                 },
                 MergeOptions = new MergeOptions
                 {
-                    OnCheckoutProgress = (s, completedSteps, totalSteps) =>
+                    OnCheckoutProgress = (path, completedSteps, totalSteps) =>
                     {
                         var progress = 50 + (50 * completedSteps) / totalSteps;
-                        observer.OnNext(Tuple.Create(s, progress));
+                        observer.OnNext(Tuple.Create(path, progress));
                     }
                 }
             };
