@@ -25,6 +25,8 @@ namespace ReactiveGit
             IObserver<Tuple<string, int>> observer)
         {
             var signature = _repository.Config.BuildSignature(DateTimeOffset.Now);
+            var isCancelled = false;
+
             var options = new PullOptions
             {
                 FetchOptions = new FetchOptions
@@ -35,7 +37,7 @@ namespace ReactiveGit
                     {
                         var p = (50 * progress.ReceivedObjects) / progress.TotalObjects;
                         observer.OnNext(Tuple.Create("", p));
-                        return true;
+                        return !isCancelled;
                     }
                 },
                 MergeOptions = new MergeOptions
@@ -48,14 +50,25 @@ namespace ReactiveGit
                 }
             };
 
-            return Observable.Start(() =>
+            return Observable.Create<MergeResult>(subj =>
             {
-                var result = _repository.Network.Pull(signature, options);
+                var sub = Observable.Start(() =>
+                {
+                    var result = _repository.Network.Pull(signature, options);
 
-                observer.OnNext(Tuple.Create("pull completed", 100));
-                observer.OnCompleted();
+                    observer.OnNext(Tuple.Create("pull completed", 100));
+                    observer.OnCompleted();
 
-                return result;
+                    return result;
+                }, Scheduler.Default).Subscribe(subj);
+
+                return new CompositeDisposable(
+                    sub,
+                    Disposable.Create(() =>
+                    {
+                        isCancelled = true;
+                        observer.OnCompleted();
+                    }));
             });
         }
 
