@@ -23,7 +23,7 @@ namespace ReactiveGit
             {
                 _repository.Checkout(branch, options, signature);
 
-                observer.OnNext(Tuple.Create("pull completed", 100));
+                observer.OnNext(Tuple.Create("checkout completed", 100));
                 observer.OnCompleted();
 
             }, Scheduler.Default);
@@ -44,7 +44,7 @@ namespace ReactiveGit
             {
                 _repository.Checkout(commit, options, signature);
 
-                observer.OnNext(Tuple.Create("pull completed", 100));
+                observer.OnNext(Tuple.Create("checkout completed", 100));
                 observer.OnCompleted();
 
             }, Scheduler.Default);
@@ -65,11 +65,10 @@ namespace ReactiveGit
             {
                 _repository.Checkout(commitOrBranchSpec, options, signature);
 
-                observer.OnNext(Tuple.Create("pull completed", 100));
+                observer.OnNext(Tuple.Create("checkout completed", 100));
                 observer.OnCompleted();
 
             }, Scheduler.Default);
         }
-
     }
 }
