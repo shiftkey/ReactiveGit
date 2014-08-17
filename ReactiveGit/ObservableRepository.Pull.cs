@@ -22,6 +22,7 @@ namespace ReactiveGit
                     Credentials = _credentials,
                     OnTransferProgress = progress =>
                     {
+                        // TODO: how should we signal for the "indexing objects" events
                         var p = (50 * progress.ReceivedObjects) / progress.TotalObjects;
                         observer.OnNext(Tuple.Create("", p));
                         return !isCancelled;
