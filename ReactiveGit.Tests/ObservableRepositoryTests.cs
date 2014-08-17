@@ -30,8 +30,6 @@ namespace ReactiveGit.Tests
             }
         }
 
-
-
         [Fact]
         public async Task GetProgressFromASyncOperation()
         {
