@@ -1,5 +1,6 @@
 # assumes Powershell 3+ due to $PSScriptRoot
 $root = $PSScriptRoot
+$version = "0.0.2"
 
 if (Test-Path  $env:ProgramFiles\MSBuild\12.0\bin\) {
   $msbuild = "$env:ProgramFiles\MSBuild\12.0\bin\msbuild.exe"
@@ -17,7 +18,7 @@ Push-Location -Path $root
 # TODO: run the tests
 
 # create the packages
-.\tools\nuget.exe pack .\nuspec\ReactiveGit.nuspec
-.\tools\nuget.exe pack .\nuspec\ReactiveGit.Source.nuspec
+.\tools\nuget.exe pack .\nuspec\ReactiveGit.nuspec -Version $version
+.\tools\nuget.exe pack .\nuspec\ReactiveGit.Source.nuspec -Version $version
 
 Pop-Location
