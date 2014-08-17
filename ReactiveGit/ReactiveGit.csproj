@@ -56,6 +56,7 @@
   <ItemGroup>
     <Compile Include="IObservableRepository.cs" />
     <Compile Include="ObservableRepository.Checkout.cs" />
+    <Compile Include="ObservableRepository.Clone.cs" />
     <Compile Include="ObservableRepository.cs" />
     <Compile Include="ObservableRepository.Pull.cs" />
     <Compile Include="ObservableRepository.Push.cs" />
