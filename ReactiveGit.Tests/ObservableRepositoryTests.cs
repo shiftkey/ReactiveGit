@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -11,6 +12,24 @@ namespace ReactiveGit.Tests
 {
     public class ObservableRepositoryTests
     {
+        [Fact]
+        public async Task CanCloneARepository()
+        {
+            using (var directory = TestDirectory.Create())
+            {
+                var cloneObserver = new ReplaySubject<Tuple<string, int>>();
+                using (await ObservableRepository.Clone(
+                    "https://github.com/shiftkey/rxui-design-guidelines.git",
+                    directory.Path,
+                    cloneObserver))
+                {
+                    Assert.NotEmpty(Directory.GetFiles(directory.Path));
+                    var progressList = await cloneObserver.Select(x => x.Item2).ToList();
+                    Assert.Equal(100, progressList.Last());
+                }
+            }
+        }
+
         [Fact]
         public async Task GetProgressFromASyncOperation()
         {
