@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{84AB502D-9
 	ProjectSection(SolutionItems) = preProject
 		build.fsx = build.fsx
 		build.ps1 = build.ps1
+		nuspec\ReactiveGit.nuspec = nuspec\ReactiveGit.nuspec
+		nuspec\ReactiveGit.Source.nuspec = nuspec\ReactiveGit.Source.nuspec
 	EndProjectSection
 EndProject
 Global
