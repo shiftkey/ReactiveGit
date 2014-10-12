@@ -9,6 +9,7 @@ namespace ReactiveGit
 {
     public partial class ObservableRepository
     {
+        /// <inheritdoc />
         public IObservable<Unit> Push(IObserver<Tuple<string, int>> observer)
         {
             var branch = _repository.Head;
@@ -16,7 +17,7 @@ namespace ReactiveGit
             var isCancelled = false;
             var options = new PushOptions
             {
-                Credentials = _credentials,
+                CredentialsProvider = _credentialsHandler,
                 OnPushTransferProgress = (current, total, bytes) =>
                 {
                     var progress = 0;

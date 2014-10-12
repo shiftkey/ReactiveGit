@@ -8,6 +8,7 @@ namespace ReactiveGit
 {
     public partial class ObservableRepository
     {
+        /// <inheritdoc />
         public IObservable<Unit> Checkout(
             Branch branch,
             IObserver<Tuple<string, int>> observer)
@@ -26,6 +27,7 @@ namespace ReactiveGit
             }, Scheduler.Default);
         }
 
+        /// <inheritdoc />
         public IObservable<Unit> Checkout(
             Commit commit,
             IObserver<Tuple<string, int>> observer)
@@ -44,6 +46,7 @@ namespace ReactiveGit
             }, Scheduler.Default);
         }
 
+        /// <inheritdoc />
         public IObservable<Unit> Checkout(
             string commitOrBranchSpec,
             IObserver<Tuple<string, int>> observer)

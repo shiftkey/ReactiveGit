@@ -6,6 +6,7 @@ using System.Reactive.Linq;
 using System.Reactive.Subjects;
 using System.Threading.Tasks;
 using LibGit2Sharp;
+using LibGit2Sharp.Handlers;
 using Xunit;
 
 namespace ReactiveGit.Tests
@@ -33,11 +34,12 @@ namespace ReactiveGit.Tests
         [Fact]
         public async Task GetProgressFromASyncOperation()
         {
-            Credentials credentials = new UsernamePasswordCredentials
-            {
-                Username = "shiftkey-tester",
-                Password = "haha-password"
-            };
+            CredentialsHandler credentials = (url, usernameFromUrl, types) =>
+                new UsernamePasswordCredentials
+                {
+                    Username = "shiftkey-tester",
+                    Password = "haha-password"
+                };
 
             var repository = new ObservableRepository(
                 @"C:\Users\brendanforster\Documents\GìtHūb\testing-pushspecs",

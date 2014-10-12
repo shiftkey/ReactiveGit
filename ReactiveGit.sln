@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveGit", "ReactiveGit\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveGit.Tests", "ReactiveGit.Tests\ReactiveGit.Tests.csproj", "{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{84AB502D-9BE4-4ACF-A8E7-6DB56106E520}"
+	ProjectSection(SolutionItems) = preProject
+		build.fsx = build.fsx
+		build.ps1 = build.ps1
+		nuspec\ReactiveGit.nuspec = nuspec\ReactiveGit.nuspec
+		nuspec\ReactiveGit.Source.nuspec = nuspec\ReactiveGit.Source.nuspec
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

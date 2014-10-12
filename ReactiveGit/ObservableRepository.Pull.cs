@@ -8,6 +8,7 @@ namespace ReactiveGit
 {
     public partial class ObservableRepository
     {
+        /// <inheritdoc />
         public IObservable<MergeResult> Pull(
             IObserver<Tuple<string, int>> observer)
         {
@@ -19,7 +20,7 @@ namespace ReactiveGit
                 FetchOptions = new FetchOptions
                 {
                     TagFetchMode = TagFetchMode.None,
-                    Credentials = _credentials,
+                    CredentialsProvider = _credentialsHandler,
                     OnTransferProgress = progress =>
                     {
                         // TODO: how should we signal for the "indexing objects" events
