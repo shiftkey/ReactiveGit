@@ -50,17 +50,11 @@ Target "SourcePackage" (fun _ ->
 
 Target "Default" DoNothing
 
-Target "CreatePackages" DoNothing
-
-"Package"
-   ==> "CreatePackages"
-"SourcePackage"
-   ==> "CreatePackages"
-
 "Clean"
    ==> "AssemblyInfo"
    ==> "Build"
-   ==> "CreatePackages"
+   ==> "SourcePackage"
+   ==> "Package"
    ==> "Default"
 
 RunTargetOrDefault "Default"
