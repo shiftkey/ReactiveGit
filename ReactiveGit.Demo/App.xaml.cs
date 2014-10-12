@@ -13,5 +13,6 @@ namespace ReactiveGit.Demo
     /// </summary>
     public partial class App : Application
     {
+
     }
 }

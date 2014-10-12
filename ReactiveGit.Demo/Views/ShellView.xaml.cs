@@ -9,6 +9,12 @@ namespace ReactiveGit.Demo.Views
         public ShellView()
         {
             InitializeComponent();
+
+            this.BindCommand(ViewModel, vm => vm.OpenRepository, v => v.openRepository);
+
+            this.OneWayBind(ViewModel, vm => vm.SelectedRepository, v => v.selectedRepository.ViewModel);
+            this.OneWayBind(ViewModel, vm => vm.SelectedRepository, v => v.selectedRepository.Visibility,
+                vm => vm == null ? Visibility.Collapsed : Visibility.Visible);
         }
 
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
