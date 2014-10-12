@@ -3,6 +3,7 @@ open Fake
 open System
 
 let buildDir = "./ReactiveGit/bin"
+let packagesDir = "./NuGet"
 
 let releaseNotes = 
     ReadFile "ReleaseNotes.md"
@@ -30,15 +31,14 @@ Target "Build" (fun _ ->
 )
 
 Target "Package" (fun _ ->
+    CleanDirs [ packagesDir ]
+
     NuGet (fun p -> 
         {p with
             Version = releaseNotes.AssemblyVersion
             ReleaseNotes = toLines releaseNotes.Notes
             AccessKey = getBuildParamOrDefault "nugetkey" ""
             Publish = hasBuildParam "nugetkey" }) "nuspec/ReactiveGit.nuspec"
-)
-
-Target "SourcePackage" (fun _ ->
 
     NuGet (fun p -> 
         {p with
@@ -53,7 +53,6 @@ Target "Default" DoNothing
 "Clean"
    ==> "AssemblyInfo"
    ==> "Build"
-   ==> "SourcePackage"
    ==> "Package"
    ==> "Default"
 
