@@ -21,11 +21,13 @@ Install-Package ReactiveGit
 
 ```
 // many operations require authentication
-Credentials credentials = new UsernamePasswordCredentials
-{
-  Username = "shiftkey-tester",
-  Password = "haha-password"
-};
+CredentialsHandler credentials = (url, usernameFromUrl, types) =>
+    new UsernamePasswordCredentials
+    {
+        Username = "shiftkey-tester",
+        Password = "haha-password"
+    };
+
 
 // you can also pass an existing LibGit2Sharp repository here
 var repository = new ObservableRepository(
