@@ -1,4 +1,4 @@
-### New in 0.0.3 (Released 2014/10/??)
+### New in 0.0.3 (Released 2014/10/12)
 * a proper build process, just like a real OSS project
 * now targets LibGit2Sharp v0.19
 
