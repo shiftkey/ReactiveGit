@@ -9,6 +9,7 @@ namespace ReactiveGit
 {
     public partial class ObservableRepository
     {
+        /// <inheritdoc />
         public static IObservable<IObservableRepository> Clone(
             string sourceUrl,
             string workingDirectory,

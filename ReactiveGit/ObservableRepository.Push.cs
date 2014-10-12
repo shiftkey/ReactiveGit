@@ -9,6 +9,7 @@ namespace ReactiveGit
 {
     public partial class ObservableRepository
     {
+        /// <inheritdoc />
         public IObservable<Unit> Push(IObserver<Tuple<string, int>> observer)
         {
             var branch = _repository.Head;

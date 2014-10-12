@@ -8,6 +8,7 @@ namespace ReactiveGit
 {
     public partial class ObservableRepository
     {
+        /// <inheritdoc />
         public IObservable<MergeResult> Pull(
             IObserver<Tuple<string, int>> observer)
         {

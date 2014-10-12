@@ -4,6 +4,9 @@ using LibGit2Sharp;
 
 namespace ReactiveGit
 {
+    /// <summary>
+    /// Abstraction for performing asynchronous operations against a LibGit2Sharp repository
+    /// </summary>
     public interface IObservableRepository : IDisposable
     {
         /// <summary>
