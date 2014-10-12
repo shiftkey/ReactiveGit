@@ -3,6 +3,7 @@ using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using LibGit2Sharp;
+using LibGit2Sharp.Handlers;
 
 namespace ReactiveGit
 {
@@ -12,13 +13,13 @@ namespace ReactiveGit
             string sourceUrl,
             string workingDirectory,
             IObserver<Tuple<string, int>> observer,
-            Credentials credentials = null)
+            CredentialsHandler credentials = null)
         {
             var isCancelled = false;
             var options = new CloneOptions
             {
                 Checkout = true,
-                Credentials = credentials,
+                CredentialsProvider = credentials,
                 OnTransferProgress = progress =>
                 {
                     // TODO: how should we signal for the "indexing objects" events

@@ -19,7 +19,7 @@ namespace ReactiveGit
                 FetchOptions = new FetchOptions
                 {
                     TagFetchMode = TagFetchMode.None,
-                    Credentials = _credentials,
+                    CredentialsProvider = _credentialsHandler,
                     OnTransferProgress = progress =>
                     {
                         // TODO: how should we signal for the "indexing objects" events

@@ -16,7 +16,7 @@ namespace ReactiveGit
             var isCancelled = false;
             var options = new PushOptions
             {
-                Credentials = _credentials,
+                CredentialsProvider = _credentialsHandler,
                 OnPushTransferProgress = (current, total, bytes) =>
                 {
                     var progress = 0;

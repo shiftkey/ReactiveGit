@@ -1,4 +1,5 @@
 ﻿using LibGit2Sharp;
+using LibGit2Sharp.Handlers;
 
 namespace ReactiveGit
 {
@@ -6,15 +7,15 @@ namespace ReactiveGit
         : IObservableRepository
     {
         readonly Repository _repository;
-        readonly Credentials _credentials;
+        readonly CredentialsHandler _credentialsHandler;
 
         public ObservableRepository(string directory)
             : this(directory, null) { }
 
-        public ObservableRepository(string directory, Credentials credentials)
+        public ObservableRepository(string directory, CredentialsHandler credentialsHandler)
         {
             _repository = new Repository(directory);
-            _credentials = credentials;
+            _credentialsHandler = credentialsHandler;
         }
 
         public void Dispose()
