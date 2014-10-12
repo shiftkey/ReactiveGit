@@ -9,6 +9,13 @@ namespace ReactiveGit.Demo.Views
         public RepositoryView()
         {
             InitializeComponent();
+
+            // display the progress messages
+            this.OneWayBind(ViewModel, vm => vm.ProgressText, v => v.progressMessage.Text);
+
+            // show the progress bar filling up
+            this.OneWayBind(ViewModel, vm => vm.ProgressValue, v => v.progressBar.Value);
+            this.OneWayBind(ViewModel, vm => vm.IsExecuting, v => v.progressBar.Visibility);
         }
 
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(

@@ -13,7 +13,16 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <ProgressBar Height="30" Grid.Row="1"></ProgressBar>
+        <ProgressBar x:Name="progressBar"
+                     Height="24"
+                     Margin="12,0"
+                     Grid.Row="1"
+                     Value="20" />
+        <TextBlock x:Name="progressMessage"
+                   Grid.Row="3"
+                   Text="doot"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center" />
 
     </Grid>
 </UserControl>
