@@ -52,23 +52,15 @@ Target "Default" DoNothing
 
 Target "CreatePackages" DoNothing
 
+"Package"
+   ==> "CreatePackages"
+"SourcePackage"
+   ==> "CreatePackages"
+
 "Clean"
    ==> "AssemblyInfo"
-   ==> "CheckProjects"
-       ==> "BuildApp"
-
-"UnitTests"
-   ==> "Default"
-
-"ConventionTests"
-   ==> "Default"
-
-"IntegrationTests"
-   ==> "Default"
-
-"CreateOctokitPackage"
+   ==> "Build"
    ==> "CreatePackages"
-"CreateOctokitReactivePackage"
-   ==> "CreatePackages"
+   ==> "Default"
 
 RunTargetOrDefault "Default"

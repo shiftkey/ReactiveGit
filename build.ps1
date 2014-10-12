@@ -10,6 +10,6 @@ Push-Location -Path $root
 # build the thing
 .\tools\nuget.exe restore .\ReactiveGit.sln
 
-.\tools\FAKE.Core\tools\Fake.exe build.fsx target=Package
+.\tools\FAKE.Core\tools\Fake.exe build.fsx
 
 Pop-Location
