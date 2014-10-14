@@ -35,6 +35,9 @@ namespace ReactiveGit
             _credentialsHandler = credentialsHandler;
         }
 
+        /// <inheritdoc />
+        public IRepository Inner { get { return _repository; } }
+
         /// <summary>
         /// Dispose the resources held by the repository
         /// </summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Reactive.Concurrency;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -25,12 +26,17 @@ namespace ReactiveGit
                 {
                     // TODO: how should we signal for the "indexing objects" events
                     var p = (100 * progress.ReceivedObjects) / progress.TotalObjects;
-                    observer.OnNext(Tuple.Create("", p));
+                    var receivingMessage = String.Format("Receiving objects:  {0}% ({1}/{2})", p, progress.ReceivedObjects, progress.TotalObjects);
+                    observer.OnNext(Tuple.Create(receivingMessage, p));
                     return !isCancelled;
                 },
                 IsBare = false,
-                OnCheckoutProgress = ProgressFactory.CreateHandler(observer)
+                OnCheckoutProgress = ProgressFactory.CreateHandlerWithoutMessages(observer)
             };
+
+            var directoryInfo = new DirectoryInfo(workingDirectory);
+            var initialMessage = String.Format("Cloning into '{0}'...", directoryInfo.Name);
+            observer.OnNext(Tuple.Create(initialMessage, 0));
 
             return Observable.Create<ObservableRepository>(subj =>
             {

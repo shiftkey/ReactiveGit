@@ -46,5 +46,10 @@ namespace ReactiveGit
         /// <param name="observer">An observer to report progress</param>
         /// <returns>A signal indicating completion</returns>
         IObservable<Unit> Checkout(string commitOrBranchSpec, IObserver<Tuple<string, int>> observer);
+
+        /// <summary>
+        /// Access to the underlying LibGit2Sharp repository
+        /// </summary>
+        IRepository Inner { get; }
     }
 }

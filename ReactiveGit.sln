@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "meta", "meta", "{84AB502D-9
 		nuspec\ReactiveGit.Source.nuspec = nuspec\ReactiveGit.Source.nuspec
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveGit.Demo", "ReactiveGit.Demo\ReactiveGit.Demo.csproj", "{BD02CBC4-2981-430A-AD5A-C3CCF05F0BBC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26BC0BE1-5C57-44DE-B0CC-EA9AAD9D2587}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD02CBC4-2981-430A-AD5A-C3CCF05F0BBC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD02CBC4-2981-430A-AD5A-C3CCF05F0BBC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD02CBC4-2981-430A-AD5A-C3CCF05F0BBC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD02CBC4-2981-430A-AD5A-C3CCF05F0BBC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
