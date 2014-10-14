@@ -11,7 +11,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" x:Name="clonePanel">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -20,8 +20,6 @@
             <TextBox x:Name="cloneUrl" Margin="10" />
 
             <Button Grid.Row="1" Content="Clone Repository" Margin="10" x:Name="cloneRepository" />
-
-
         </Grid>
         
 

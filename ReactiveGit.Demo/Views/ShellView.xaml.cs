@@ -12,9 +12,16 @@ namespace ReactiveGit.Demo.Views
         {
             InitializeComponent();
 
+            // wireup the data necessary for the clone
             this.Bind(ViewModel, vm => vm.CloneUrl, v => v.cloneUrl.Text);
             this.BindCommand(ViewModel, vm => vm.CloneRepository, v => v.cloneRepository);
 
+            // hide the clone panel after we have kicked off the clone
+            this.WhenAnyValue(x => x.ViewModel.CloneViewModel)
+                .Select(vm => vm == null)
+                .BindTo(this, v => v.clonePanel.Visibility);
+
+            // once setup, trigger the clone operation
             this.WhenAnyValue(x => x.ViewModel.CloneViewModel)
                 .Where(vm => vm != null)
                 .SelectMany(vm =>
