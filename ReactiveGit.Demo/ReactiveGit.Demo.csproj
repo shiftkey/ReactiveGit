@@ -78,6 +78,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ObservableFolderPicker.cs" />
     <Compile Include="ViewModels\CloneRepositoryViewModel.cs" />
     <Compile Include="ViewModels\RepositoryViewModel.cs" />
     <Compile Include="ViewModels\ShellViewModel.cs" />
