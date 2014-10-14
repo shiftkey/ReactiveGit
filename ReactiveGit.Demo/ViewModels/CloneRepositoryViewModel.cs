@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using LibGit2Sharp;
 using ReactiveUI;
 
 namespace ReactiveGit.Demo.ViewModels
@@ -22,9 +24,19 @@ namespace ReactiveGit.Demo.ViewModels
 
             StartClone = ReactiveCommand.CreateAsyncObservable(_ => 
                 ObservableRepository.Clone(cloneUrl, localDirectory, progressObserver));
+            StartClone.Subscribe(_
+                => { /* clone is completed */ });
 
             repository = StartClone.ToProperty(this, x => x.Repository);
+
+            Checkout = ReactiveCommand.CreateAsyncObservable(
+                this.WhenAny(x => x.Repository, x => x.Value != null),
+                _ => Repository.Checkout((Branch) null, progressObserver));
+            Checkout.Subscribe(_
+                => { /* checkout is completed */ });
         }
+
+        public ReactiveCommand<Unit> Checkout { get; private set; }
 
         public IObservableRepository Repository { get { return repository.Value; } }
 

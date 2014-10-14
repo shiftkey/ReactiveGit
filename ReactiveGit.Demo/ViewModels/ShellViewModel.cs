@@ -7,7 +7,6 @@ namespace ReactiveGit.Demo.ViewModels
     public class ShellViewModel : ReactiveObject
     {
         readonly ObservableAsPropertyHelper<CloneRepositoryViewModel> cloneViewModel;
-        readonly ObservableAsPropertyHelper<RepositoryViewModel> existingRepository;
 
         public ShellViewModel()
         {
@@ -22,23 +21,9 @@ namespace ReactiveGit.Demo.ViewModels
             cloneViewModel = CloneRepository
                 .Select(path => new CloneRepositoryViewModel(CloneUrl, path))
                 .ToProperty(this, x => x.CloneViewModel);
-
-            OpenRepository = ReactiveCommand.CreateAsyncObservable(
-                _ => ObservableFolderPicker.SelectFolder());
-
-            existingRepository = OpenRepository
-                .Where(IsGitRepository)
-                .Select(path => new RepositoryViewModel(path))
-                .ToProperty(this, x => x.ExistingRepository);
         }
 
-        bool IsGitRepository(string directory)
-        {
-            // TODO: validate this path is a repository
-            return true;
-        }
-
-        private static bool IsValidUri(string x)
+        static bool IsValidUri(string x)
         {
             Uri result;
             return Uri.TryCreate(x, UriKind.Absolute, out result);
@@ -49,12 +34,6 @@ namespace ReactiveGit.Demo.ViewModels
             get { return cloneViewModel.Value; }
         }
 
-        public RepositoryViewModel ExistingRepository
-        {
-            get { return existingRepository.Value; }
-        }
-
-        public ReactiveCommand<string> OpenRepository { get; private set; }
         public ReactiveCommand<string> CloneRepository { get; private set; }
 
         string cloneUrl;
