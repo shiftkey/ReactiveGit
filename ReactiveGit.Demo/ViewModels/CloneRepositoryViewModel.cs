@@ -12,9 +12,12 @@ namespace ReactiveGit.Demo.ViewModels
         readonly ObservableAsPropertyHelper<string> progressText;
         readonly ObservableAsPropertyHelper<int> progressValue;
         readonly ObservableAsPropertyHelper<IObservableRepository> repository;
+        readonly ObservableAsPropertyHelper<bool> isCloning;
 
         public CloneRepositoryViewModel(string cloneUrl, string localDirectory)
         {
+            IsEmpty = true;
+
             var progressObserver = new ReplaySubject<Tuple<string, int>>();
             progressText = progressObserver.Select(x => x.Item1)
                 .ToProperty(this, x => x.ProgressText, scheduler: RxApp.MainThreadScheduler);
@@ -25,7 +28,9 @@ namespace ReactiveGit.Demo.ViewModels
             StartClone = ReactiveCommand.CreateAsyncObservable(_ => 
                 ObservableRepository.Clone(cloneUrl, localDirectory, progressObserver));
             StartClone.Subscribe(_
-                => { /* clone is completed */ });
+                => { IsEmpty = false; });
+
+            isCloning = StartClone.IsExecuting.ToProperty(this, x => x.IsCloning);
 
             repository = StartClone.ToProperty(this, x => x.Repository);
 
@@ -34,6 +39,18 @@ namespace ReactiveGit.Demo.ViewModels
                 _ => Repository.Checkout((Branch) null, progressObserver));
             Checkout.Subscribe(_
                 => { /* checkout is completed */ });
+        }
+
+        bool isEmpty;
+        public bool IsEmpty
+        {
+            get { return isEmpty; }
+            private set { this.RaiseAndSetIfChanged(ref isEmpty, value); }
+        }
+
+        public bool IsCloning
+        {
+            get { return isCloning.Value; }
         }
 
         public ReactiveCommand<Unit> Checkout { get; private set; }
