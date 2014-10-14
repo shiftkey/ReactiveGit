@@ -31,7 +31,7 @@ namespace ReactiveGit
                     return !isCancelled;
                 },
                 IsBare = false,
-                OnCheckoutProgress = ProgressFactory.CreateHandler(observer)
+                OnCheckoutProgress = ProgressFactory.CreateHandlerWithoutMessages(observer)
             };
 
             var directoryInfo = new DirectoryInfo(workingDirectory);
