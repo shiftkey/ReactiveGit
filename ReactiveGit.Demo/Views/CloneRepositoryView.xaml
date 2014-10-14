@@ -7,19 +7,30 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Grid x:Name="ready">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox x:Name="branches" DisplayMemberPath="Name" Margin="10,10,5,10" />
+            <Button x:Name="checkout" Grid.Column="1" Content="Checkout" Margin="5,10,10,10" />
+        </Grid>
+
         <ProgressBar x:Name="progressBar"
-                     Height="24"
-                     Margin="12,0"
-                     Grid.Row="0"
-                     Value="20" />
+                         Height="24"
+                         Margin="12,0"
+                         Grid.Row="1"
+                         Value="20" />
         <TextBlock x:Name="progressMessage"
-                   Grid.Row="1"
-                   Text="doot"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" />
+                       Grid.Row="2"
+                       Text="doot"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center" />
     </Grid>
+
 </UserControl>

@@ -21,7 +21,7 @@ namespace ReactiveGit.Demo.Views
                 {
                     var view = new CloneRepositoryView { ViewModel = vm };
                     content.Content = view;
-                    return vm.StartClone.ExecuteAsync();
+                    return vm.Clone.ExecuteAsync();
                 })
                 .Subscribe();
         }

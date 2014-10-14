@@ -15,6 +15,15 @@ namespace ReactiveGit.Demo.Views
 
             // show the progress bar filling up
             this.OneWayBind(ViewModel, vm => vm.ProgressValue, v => v.progressBar.Value);
+
+            // only show the checkout panel after the clone is done
+            this.OneWayBind(ViewModel, vm => vm.IsEmpty, v => v.ready.Visibility,
+                conversionHint: BooleanToVisibilityHint.Inverse);
+
+            // bind the other UI elements
+            this.BindCommand(ViewModel, vm => vm.Checkout, v => v.checkout);
+            this.OneWayBind(ViewModel, vm => vm.Branches, v => v.branches.ItemsSource);
+            this.Bind(ViewModel, vm => vm.SelectedBranch, v => v.branches.SelectedItem);
         }
 
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(

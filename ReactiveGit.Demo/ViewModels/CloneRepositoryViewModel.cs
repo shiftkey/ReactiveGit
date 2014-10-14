@@ -17,6 +17,7 @@ namespace ReactiveGit.Demo.ViewModels
         public CloneRepositoryViewModel(string cloneUrl, string localDirectory)
         {
             IsEmpty = true;
+            Branches = new ReactiveList<BranchViewModel>();
 
             var progressObserver = new ReplaySubject<Tuple<string, int>>();
             progressText = progressObserver.Select(x => x.Item1)
@@ -25,14 +26,18 @@ namespace ReactiveGit.Demo.ViewModels
                 .ObserveOn(RxApp.MainThreadScheduler)
                 .ToProperty(this, x => x.ProgressValue, scheduler: RxApp.MainThreadScheduler);
 
-            StartClone = ReactiveCommand.CreateAsyncObservable(_ => 
+            Clone = ReactiveCommand.CreateAsyncObservable(_ => 
                 ObservableRepository.Clone(cloneUrl, localDirectory, progressObserver));
-            StartClone.Subscribe(_
-                => { IsEmpty = false; });
+            Clone.Subscribe(_
+                =>
+            {
+                IsEmpty = false; 
+                // TODO: extract branches from underlying repository
+            });
 
-            isCloning = StartClone.IsExecuting.ToProperty(this, x => x.IsCloning);
+            isCloning = Clone.IsExecuting.ToProperty(this, x => x.IsCloning);
 
-            repository = StartClone.ToProperty(this, x => x.Repository);
+            repository = Clone.ToProperty(this, x => x.Repository);
 
             Checkout = ReactiveCommand.CreateAsyncObservable(
                 this.WhenAny(x => x.Repository, x => x.Value != null),
@@ -48,19 +53,25 @@ namespace ReactiveGit.Demo.ViewModels
             private set { this.RaiseAndSetIfChanged(ref isEmpty, value); }
         }
 
-        public bool IsCloning
-        {
-            get { return isCloning.Value; }
-        }
+        public bool IsCloning { get { return isCloning.Value; } }
 
         public ReactiveCommand<Unit> Checkout { get; private set; }
 
         public IObservableRepository Repository { get { return repository.Value; } }
 
-        public ReactiveCommand<IObservableRepository> StartClone { get; private set; }
+        public ReactiveCommand<IObservableRepository> Clone { get; private set; }
 
         public int ProgressValue { get { return progressValue.Value; } }
 
         public string ProgressText { get { return progressText.Value; } }
+
+        public ReactiveList<BranchViewModel> Branches { get; private set; }
+
+        BranchViewModel selectedBranch;
+        public BranchViewModel SelectedBranch
+        {
+            get { return selectedBranch; }
+            set { this.RaiseAndSetIfChanged(ref selectedBranch, value); }
+        }
     }
 }
