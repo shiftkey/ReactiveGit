@@ -21,7 +21,7 @@ namespace ReactiveGit.Demo.Views
                 .Select(vm => vm == null)
                 .BindTo(this, v => v.clonePanel.Visibility);
 
-            // once setup, trigger the clone operation
+            // once setup, display the view and trigger the clone operation
             this.WhenAnyValue(x => x.ViewModel.CloneViewModel)
                 .Where(vm => vm != null)
                 .SelectMany(vm =>

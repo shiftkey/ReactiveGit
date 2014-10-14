@@ -68,10 +68,13 @@ namespace ReactiveGit.Demo.ViewModels
         {
             Branches.Clear();
             foreach (var branch in repo.Inner.Branches
-                .Select(x => new BranchViewModel {Name = x.Name, CanonicalName = x.CanonicalName}))
+                .Select(x => new BranchViewModel { Name = x.Name, CanonicalName = x.CanonicalName }))
             {
                 Branches.Add(branch);
             }
+
+            SelectedBranch = Branches.FirstOrDefault(
+                b => b.CanonicalName == repo.Inner.Head.CanonicalName);
         }
 
         bool isEmpty;

@@ -25,8 +25,6 @@ namespace ReactiveGit.Demo
 
                 return Observable.Throw<string>(new InvalidOperationException());
             });
-
-
         }
     }
 }
