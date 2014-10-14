@@ -12,8 +12,6 @@ namespace ReactiveGit.Demo.Views
 
             // display the progress messages
             this.OneWayBind(ViewModel, vm => vm.ProgressText, v => v.progressMessage.Text);
-
-            // show the progress bar filling up
             this.OneWayBind(ViewModel, vm => vm.ProgressValue, v => v.progressBar.Value);
 
             // only show the checkout panel after the clone is done

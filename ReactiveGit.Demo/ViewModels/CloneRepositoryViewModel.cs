@@ -20,15 +20,20 @@ namespace ReactiveGit.Demo.ViewModels
             IsEmpty = true;
             Branches = new ReactiveList<BranchViewModel>();
 
-            var progressObserver = new ReplaySubject<Tuple<string, int>>();
-            progressText = progressObserver.Select(x => x.Item1)
+            // omg this hack sucks
+            Progress = new ReplaySubject<Tuple<string, int>>();
+
+            var anyProgress = this.WhenAnyObservable(x => x.Progress);
+            progressText = anyProgress.Select(x => x.Item1)
                 .ToProperty(this, x => x.ProgressText, scheduler: RxApp.MainThreadScheduler);
-            progressValue = progressObserver.Select(x => x.Item2)
-                .ObserveOn(RxApp.MainThreadScheduler)
+            progressValue = anyProgress.Select(x => x.Item2)
                 .ToProperty(this, x => x.ProgressValue, scheduler: RxApp.MainThreadScheduler);
 
-            Clone = ReactiveCommand.CreateAsyncObservable(_ => 
-                ObservableRepository.Clone(cloneUrl, localDirectory, progressObserver));
+            Clone = ReactiveCommand.CreateAsyncObservable(_ =>
+            {
+                Progress = new ReplaySubject<Tuple<string, int>>();
+                return ObservableRepository.Clone(cloneUrl, localDirectory, Progress);
+            });
 
             isCloningObs = Clone.IsExecuting.ToProperty(this, x => x.IsCloning);
 
@@ -44,12 +49,19 @@ namespace ReactiveGit.Demo.ViewModels
                 this.WhenAny(x => x.SelectedBranch, x => x != null),
                 _ =>
                 {
+                    Progress = new ReplaySubject<Tuple<string, int>>();
                     var branch = Repository.Inner.Branches[SelectedBranch.Name];
-
-                    return Repository.Checkout(branch, progressObserver);
+                    return Repository.Checkout(branch, Progress);
                 });
             Checkout.Subscribe(_
                 => RefreshBranches(Repository));
+        }
+
+        ISubject<Tuple<string, int>> progress;
+        public ISubject<Tuple<string, int>> Progress
+        {
+            get { return progress; }
+            private set { this.RaiseAndSetIfChanged(ref progress, value); }
         }
 
         void RefreshBranches(IObservableRepository repo)
