@@ -19,16 +19,13 @@ namespace ReactiveGit.Demo.Views
 
             this.WhenAnyValue(x => x.ViewModel.CloneViewModel)
                 .Where(vm => vm != null)
-                .Select(vm =>
+                .SelectMany(vm =>
                 {
-                    var view = new CloneRepositoryView { ViewModel = vm };
+                    var view = new CloneRepositoryView {ViewModel = vm};
                     content.Content = view;
                     return vm.StartClone.ExecuteAsync();
                 })
-                .Subscribe(next =>
-                {
-                    
-                });
+                .Subscribe();
         }
 
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(

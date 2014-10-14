@@ -1,30 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using ReactiveGit.Demo.ViewModels;
 using ReactiveUI;
 
 namespace ReactiveGit.Demo.Views
 {
-    /// <summary>
-    /// Interaction logic for CloneRepositoryView.xaml
-    /// </summary>
     public partial class CloneRepositoryView : IViewFor<CloneRepositoryViewModel>
     {
         public CloneRepositoryView()
         {
             InitializeComponent();
+
+            // display the progress messages
+            this.OneWayBind(ViewModel, vm => vm.ProgressText, v => v.progressMessage.Text);
+
+            // show the progress bar filling up
+            this.OneWayBind(ViewModel, vm => vm.ProgressValue, v => v.progressBar.Value);
         }
 
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(
