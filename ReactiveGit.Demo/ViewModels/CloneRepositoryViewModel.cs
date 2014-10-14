@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Reactive.Subjects;
@@ -11,8 +12,8 @@ namespace ReactiveGit.Demo.ViewModels
     {
         readonly ObservableAsPropertyHelper<string> progressText;
         readonly ObservableAsPropertyHelper<int> progressValue;
-        readonly ObservableAsPropertyHelper<IObservableRepository> repository;
-        readonly ObservableAsPropertyHelper<bool> isCloning;
+        readonly ObservableAsPropertyHelper<IObservableRepository> repositoryObs;
+        readonly ObservableAsPropertyHelper<bool> isCloningObs;
 
         public CloneRepositoryViewModel(string cloneUrl, string localDirectory)
         {
@@ -28,22 +29,37 @@ namespace ReactiveGit.Demo.ViewModels
 
             Clone = ReactiveCommand.CreateAsyncObservable(_ => 
                 ObservableRepository.Clone(cloneUrl, localDirectory, progressObserver));
-            Clone.Subscribe(_
-                =>
-            {
-                IsEmpty = false; 
-                // TODO: extract branches from underlying repository
-            });
 
-            isCloning = Clone.IsExecuting.ToProperty(this, x => x.IsCloning);
+            isCloningObs = Clone.IsExecuting.ToProperty(this, x => x.IsCloning);
 
-            repository = Clone.ToProperty(this, x => x.Repository);
+            Clone.Subscribe(_ => { IsEmpty = false; });
+
+            repositoryObs = Clone.ToProperty(this, x => x.Repository);
+
+            this.WhenAnyValue(x => x.Repository)
+                .Where(x => x != null)
+                .Subscribe(RefreshBranches);
 
             Checkout = ReactiveCommand.CreateAsyncObservable(
-                this.WhenAny(x => x.Repository, x => x.Value != null),
-                _ => Repository.Checkout((Branch) null, progressObserver));
+                this.WhenAny(x => x.SelectedBranch, x => x != null),
+                _ =>
+                {
+                    var branch = Repository.Inner.Branches[SelectedBranch.Name];
+
+                    return Repository.Checkout(branch, progressObserver);
+                });
             Checkout.Subscribe(_
-                => { /* checkout is completed */ });
+                => RefreshBranches(Repository));
+        }
+
+        void RefreshBranches(IObservableRepository repo)
+        {
+            Branches.Clear();
+            foreach (var branch in repo.Inner.Branches
+                .Select(x => new BranchViewModel {Name = x.Name, CanonicalName = x.CanonicalName}))
+            {
+                Branches.Add(branch);
+            }
         }
 
         bool isEmpty;
@@ -53,11 +69,11 @@ namespace ReactiveGit.Demo.ViewModels
             private set { this.RaiseAndSetIfChanged(ref isEmpty, value); }
         }
 
-        public bool IsCloning { get { return isCloning.Value; } }
+        public bool IsCloning { get { return isCloningObs.Value; } }
 
         public ReactiveCommand<Unit> Checkout { get; private set; }
 
-        public IObservableRepository Repository { get { return repository.Value; } }
+        public IObservableRepository Repository { get { return repositoryObs.Value; } }
 
         public ReactiveCommand<IObservableRepository> Clone { get; private set; }
 

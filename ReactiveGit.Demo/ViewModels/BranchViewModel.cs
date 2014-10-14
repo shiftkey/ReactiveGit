@@ -10,5 +10,12 @@ namespace ReactiveGit.Demo.ViewModels
             get { return name; }
             set { this.RaiseAndSetIfChanged(ref name, value); }
         }
+
+        string canonicalName;
+        public string CanonicalName
+        {
+            get { return canonicalName; }
+            set { this.RaiseAndSetIfChanged(ref canonicalName, value); }
+        }
     }
 }
