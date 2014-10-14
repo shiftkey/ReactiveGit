@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reactive.Linq;
 using System.Windows;
 using ReactiveGit.Demo.ViewModels;
 using ReactiveUI;
@@ -17,10 +18,16 @@ namespace ReactiveGit.Demo.Views
             this.BindCommand(ViewModel, vm => vm.CloneRepository, v => v.cloneRepository);
 
             this.WhenAnyValue(x => x.ViewModel.CloneViewModel)
-                .Subscribe(vm =>
+                .Where(vm => vm != null)
+                .Select(vm =>
                 {
                     var view = new CloneRepositoryView { ViewModel = vm };
                     content.Content = view;
+                    return vm.StartClone.ExecuteAsync();
+                })
+                .Subscribe(next =>
+                {
+                    
                 });
         }
 

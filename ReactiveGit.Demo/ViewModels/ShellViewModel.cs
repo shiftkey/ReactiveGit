@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reactive.Linq;
-using Microsoft.Win32;
 using ReactiveUI;
 
 namespace ReactiveGit.Demo.ViewModels
@@ -8,6 +7,7 @@ namespace ReactiveGit.Demo.ViewModels
     public class ShellViewModel : ReactiveObject
     {
         readonly ObservableAsPropertyHelper<CloneRepositoryViewModel> cloneViewModel;
+        readonly ObservableAsPropertyHelper<RepositoryViewModel> existingRepository;
 
         public ShellViewModel()
         {
@@ -15,21 +15,27 @@ namespace ReactiveGit.Demo.ViewModels
             CloneUrl = "https://github.com/shiftkey/reactivegit.git";
 
             // setup the option to clone a repository down
-            var canCloneRepository = this.WhenAny(x => x.CloneUrl, x => IsValidUri(x.Value));
-            CloneRepository = ReactiveCommand.Create(canCloneRepository);
+            CloneRepository = ReactiveCommand.CreateAsyncObservable(
+                this.WhenAny(x => x.CloneUrl, x => IsValidUri(x.Value)),
+                _ => ObservableFolderPicker.SelectFolder());
 
-            cloneViewModel = CloneRepository.Select(_ => new CloneRepositoryViewModel(CloneUrl))
+            cloneViewModel = CloneRepository
+                .Select(path => new CloneRepositoryViewModel(CloneUrl, path))
                 .ToProperty(this, x => x.CloneViewModel);
 
-            // TODO: user can open a folder on disk
-            OpenRepository = ReactiveCommand.Create();
-            OpenRepository.Subscribe(_ =>
-            {
-                // how the hell do i get this to choose a directory instead?
-            });
+            OpenRepository = ReactiveCommand.CreateAsyncObservable(
+                _ => ObservableFolderPicker.SelectFolder());
 
-            // TODO: if that folder is valid (and is a repository)
-            // TODO: we should display options to checkout, push and pull
+            existingRepository = OpenRepository
+                .Where(IsGitRepository)
+                .Select(path => new RepositoryViewModel(path))
+                .ToProperty(this, x => x.ExistingRepository);
+        }
+
+        bool IsGitRepository(string directory)
+        {
+            // TODO: validate this path is a repository
+            return true;
         }
 
         private static bool IsValidUri(string x)
@@ -38,24 +44,24 @@ namespace ReactiveGit.Demo.ViewModels
             return Uri.TryCreate(x, UriKind.Absolute, out result);
         }
 
-        public CloneRepositoryViewModel CloneViewModel { get { return cloneViewModel.Value; } }
-
-        RepositoryViewModel _selectedRepository;
-        public RepositoryViewModel SelectedRepository
+        public CloneRepositoryViewModel CloneViewModel
         {
-            get { return _selectedRepository; }
-            set { this.RaiseAndSetIfChanged(ref _selectedRepository, value); }
+            get { return cloneViewModel.Value; }
         }
 
-        public ReactiveCommand<object> OpenRepository { get; private set; }
-        public ReactiveCommand<object> CloneRepository { get; private set; }
+        public RepositoryViewModel ExistingRepository
+        {
+            get { return existingRepository.Value; }
+        }
 
-        string _cloneUrl;
+        public ReactiveCommand<string> OpenRepository { get; private set; }
+        public ReactiveCommand<string> CloneRepository { get; private set; }
 
+        string cloneUrl;
         public string CloneUrl
         {
-            get { return _cloneUrl; }
-            set { this.RaiseAndSetIfChanged(ref _cloneUrl, value); }
+            get { return cloneUrl; }
+            set { this.RaiseAndSetIfChanged(ref cloneUrl, value); }
         }
     }
 }

@@ -12,7 +12,7 @@ namespace ReactiveGit.Demo.ViewModels
 
         readonly ObservableAsPropertyHelper<string> progressText;
         readonly ObservableAsPropertyHelper<int> progressValue;
-        private ObservableAsPropertyHelper<bool> isExecuting;
+        readonly ObservableAsPropertyHelper<bool> isExecuting;
 
         public RepositoryViewModel(string directory)
         {
