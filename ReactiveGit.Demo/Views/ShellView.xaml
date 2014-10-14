@@ -6,11 +6,26 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <Button Grid.Row="0" Content="Open Repository" Margin="10" x:Name="openRepository" />
+
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBox x:Name="cloneUrl" Margin="10" />
+
+            <Button Grid.Row="1" Content="Clone Repository" Margin="10" x:Name="cloneRepository" />
+
+
+        </Grid>
         
-        <views:RepositoryView x:Name="selectedRepository" Grid.Row="1" Visibility="Collapsed" />
+
+        <ContentControl x:Name="content" Grid.Row="2" />
     </Grid>
 </Window>
