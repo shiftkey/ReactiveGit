@@ -12,8 +12,6 @@ namespace ReactiveGit.Demo.Views
         {
             InitializeComponent();
 
-            this.BindCommand(ViewModel, vm => vm.OpenRepository, v => v.openRepository);
-
             this.Bind(ViewModel, vm => vm.CloneUrl, v => v.cloneUrl.Text);
             this.BindCommand(ViewModel, vm => vm.CloneRepository, v => v.cloneRepository);
 
@@ -21,7 +19,7 @@ namespace ReactiveGit.Demo.Views
                 .Where(vm => vm != null)
                 .SelectMany(vm =>
                 {
-                    var view = new CloneRepositoryView {ViewModel = vm};
+                    var view = new CloneRepositoryView { ViewModel = vm };
                     content.Content = view;
                     return vm.StartClone.ExecuteAsync();
                 })

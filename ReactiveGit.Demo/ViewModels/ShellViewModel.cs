@@ -12,7 +12,7 @@ namespace ReactiveGit.Demo.ViewModels
         public ShellViewModel()
         {
             // some default values because lazy
-            CloneUrl = "https://github.com/shiftkey/reactivegit.git";
+            CloneUrl = "https://github.com/octokit/octokit.net.git";
 
             // setup the option to clone a repository down
             CloneRepository = ReactiveCommand.CreateAsyncObservable(

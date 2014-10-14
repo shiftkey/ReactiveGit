@@ -13,14 +13,12 @@ namespace ReactiveGit.Demo.ViewModels
 
         public CloneRepositoryViewModel(string cloneUrl, string localDirectory)
         {
-            // setup a global progress observer for the operations to use
             var progressObserver = new ReplaySubject<Tuple<string, int>>();
             progressText = progressObserver.Select(x => x.Item1)
-                .ObserveOn(RxApp.MainThreadScheduler)
-                .ToProperty(this, x => x.ProgressText);
+                .ToProperty(this, x => x.ProgressText, scheduler: RxApp.MainThreadScheduler);
             progressValue = progressObserver.Select(x => x.Item2)
                 .ObserveOn(RxApp.MainThreadScheduler)
-                .ToProperty(this, x => x.ProgressValue);
+                .ToProperty(this, x => x.ProgressValue, scheduler: RxApp.MainThreadScheduler);
 
             StartClone = ReactiveCommand.CreateAsyncObservable(_ => 
                 ObservableRepository.Clone(cloneUrl, localDirectory, progressObserver));
